@@ -8,8 +8,7 @@ class LeWagon::CheckUserJob < ApplicationJob
     users.map { |user|
       next unless user.dig('alumnus', 'github').downcase == username.downcase
 
-      user.dig('alumnus', 'teacher')
-    }.any?
-    # renvoyer le numéro de batch ?
+      {teacher: true, camp_slug: user.dig('alumnus', 'camp_slug')} if user.dig('alumnus', 'teacher')
+    }.compact.first
   end
 end

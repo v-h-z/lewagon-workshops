@@ -8,7 +8,7 @@ class User < ApplicationRecord
 
   def self.from_omniauth(auth)
     p auth.info.email
-    where(provider: auth.provider, uid: auth.uid).first_or_create! do |user|
+    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.github_nickname = auth.info.nickname
       # user.password = Devise.friendly_token[0, 20]
@@ -23,8 +23,11 @@ class User < ApplicationRecord
   private
 
   def is_teacher
-    return if LeWagon::CheckUserJob.perform_now(github_nickname)
-
-    errors.add('user', "user must be Le Wagon's teacher")
+    response = LeWagon::CheckUserJob.perform_now(github_nickname)
+    if response[:teacher]
+      self.camp_slug = response[:camp_slug]
+    else
+      errors.add('user', "user must be Le Wagon's teacher")
+    end
   end
 end
