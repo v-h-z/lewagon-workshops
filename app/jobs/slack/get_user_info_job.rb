@@ -3,7 +3,8 @@ class Slack::GetUserInfoJob < ApplicationJob
 
   def perform(email:)
     url = URI("https://slack.com/api/users.lookupByEmail?email=#{email}")
-    response = Slack::ApiRequestJob.perform_now(url)
+
+    response = Slack::ApiGetRequestJob.perform_now(url: url)
     return unless response["ok"]
 
     user = response['user']
