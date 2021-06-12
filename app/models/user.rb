@@ -23,7 +23,7 @@ class User < ApplicationRecord
   private
 
   def is_teacher
-    response = LeWagon::CheckUserJob.perform_now(github_nickname)
+    response = LeWagon::CheckUserJob.perform_now(username: github_nickname)
     if response[:teacher]
       self.camp_slug = response[:camp_slug]
     else
