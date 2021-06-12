@@ -25,6 +25,6 @@ class User < ApplicationRecord
   def is_alumni
     return if LeWagon::CheckUserJob.perform_now(github_nickname)
 
-    errors.add('user', "user must be Le Wagon's alumni")
+    errors.add('user', "user must be Le Wagon's alumnus")
   end
 end
