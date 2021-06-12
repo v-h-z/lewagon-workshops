@@ -10,5 +10,6 @@ class LeWagon::CheckUserJob < ApplicationJob
 
       user.dig('alumnus', 'teacher')
     }.any?
+    # renvoyer le numéro de batch ?
   end
 end
