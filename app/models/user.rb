@@ -34,6 +34,7 @@ class User < ApplicationRecord
       channel: "@#{slack_id}",
       message: "Welcome on Le Wagon Workshop!"
     )
+  end
 
   def is_teacher
     response = LeWagon::CheckUserJob.perform_now(username: github_nickname)
