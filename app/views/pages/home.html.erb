@@ -1,2 +1,11 @@
-<h1>Pages#home</h1>
-<p>Find me in app/views/pages/home.html.erb</p>
+<h1>LE WAGON WORKSHOPS</h1>
+
+<%= "Hello #{current_user&.full_name}!" %>
+
+<% if user_signed_in? %>
+  <p><%= current_user.camp_slug ? "(batch #{current_user.camp_slug})" : "teacher but not alumnus" %> </p>
+<% else %>
+  <p>
+    <%= link_to "Sign-in with Github", user_github_omniauth_authorize_path, method: :post   %>
+  </p>
+<% end %>
