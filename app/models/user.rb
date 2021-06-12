@@ -4,7 +4,7 @@ class User < ApplicationRecord
   devise :rememberable, :omniauthable, omniauth_providers: %i[github]
   # :registerable, :recoverable, :rememberable, :validatable
 
-  validate :is_alumni
+  validate :is_teacher
 
   def self.from_omniauth(auth)
     p auth.info.email
@@ -22,9 +22,9 @@ class User < ApplicationRecord
 
   private
 
-  def is_alumni
+  def is_teacher
     return if LeWagon::CheckUserJob.perform_now(github_nickname)
 
-    errors.add('user', "user must be Le Wagon's alumnus")
+    errors.add('user', "user must be Le Wagon's teacher")
   end
 end
