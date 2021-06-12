@@ -5,7 +5,10 @@ class User < ApplicationRecord
   # :registerable, :recoverable, :rememberable, :validatable
 
   validate :is_teacher
-
+  
+  after_create :add_slack_info
+  after_create :slack_message_confirmation
+  
   def self.from_omniauth(auth)
     p auth.info.email
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
@@ -21,6 +24,16 @@ class User < ApplicationRecord
   end
 
   private
+
+  def add_slack_info
+    update_columns(Slack::GetUserInfoJob.perform_now(email: email))
+  end
+
+  def slack_message_confirmation
+    Slack::PostMessageJob.perform_now(
+      channel: "@#{slack_id}",
+      message: "Welcome on Le Wagon Workshop!"
+    )
 
   def is_teacher
     response = LeWagon::CheckUserJob.perform_now(username: github_nickname)

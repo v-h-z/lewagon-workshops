@@ -37,6 +37,9 @@ gem 'omniauth-rails_csrf_protection'
 gem 'autoprefixer-rails', '10.2.5'
 gem 'font-awesome-sass'
 gem 'simple_form'
+
+gem 'slack-ruby-client'
+
 group :development, :test do  gem 'pry-byebug'
   gem 'pry-rails'
   gem 'dotenv-rails'
