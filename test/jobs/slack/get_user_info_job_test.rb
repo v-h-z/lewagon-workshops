@@ -1,6 +1,6 @@
 require "test_helper"
 
-class Slack::GetUserIdJobTest < ActiveJob::TestCase
+class Slack::GetUserInfoJobTest < ActiveJob::TestCase
   # test "the truth" do
   #   assert true
   # end
