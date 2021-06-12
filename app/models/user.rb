@@ -26,7 +26,8 @@ class User < ApplicationRecord
   private
 
   def add_slack_info
-    update_columns(Slack::GetUserInfoJob.perform_now(email: email))
+    slack_data = Slack::GetUserInfoJob.perform_now(email: email)
+    update_columns(slack_data) if slack_data
   end
 
   def slack_message_confirmation
